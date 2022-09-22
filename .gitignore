@@ -109,3 +109,7 @@ credentials
 boto.cfg
 .boto
 
+# Ignore any accidental emacs cruft
+.#*
+\#*
+*~
