@@ -113,3 +113,8 @@ boto.cfg
 .#*
 \#*
 *~
+
+# Ignore Terraform stuff
+.terraform*
+terraform.plan
+terraform.tfstate*
