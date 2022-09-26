@@ -1,11 +1,11 @@
-#!/bin/bash -x
+#!/bin/bash
 AWS_PROFILE=simplisafetest
 NAME="terraform-user-jblacker"
 TAGS='Key=creator,Value=jblacker Key=project,Value=whats_my_ip'
 aws iam create-user --user-name $NAME --tags $TAGS
-aws iam create-access-key --user-name $NAME \
-    --query "AccessKey.{AccessKeyId: AccessKeyId, SecretAccessKey: SecretAccessKey}"
-
+AWS_CREDS=$(aws iam create-access-key --user-name $NAME \
+    --query "AccessKey.{AccessKeyId: AccessKeyId, SecretAccessKey: SecretAccessKey}")
+echo -e "Add the following credentials to your ~/.aws/credentials:\n$AWS_CREDS"
 # Want to restrict permissions of the terraform user to just what's needed for this project
 aws iam put-user-policy --user-name $NAME --policy-name basic-lambda-crud-permission \
     --policy-document \
