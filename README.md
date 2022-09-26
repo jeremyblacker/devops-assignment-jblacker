@@ -2,6 +2,42 @@
 
 We are most interested in how you go about learning the tools and environment and how you decompose the problem. As such, the problem does not have any particular "right" answer.
 
+## Usage notes
+
+Create the terraform user with restricted access by running the set-up-terraform-user.sh and add the credentials to your ~/.aws/credentials file
+```
+[jblacker@MacBook-Pro-2.local:~/repos/devops-assignment-jblacker] [jblacker-dev ↑·1|✚ 2…2]✔
+ $ ./set-up-terraform-user.sh
+Add the following credentials to your ~/.aws/credentials:
+{
+     "AccessKeyId": "XXXXXXXXXXXXXXXXXXXX",
+     "SecretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}
+```
+Make a terraform plan
+```
+terraform plan --out"terraform.plan"
+```
+
+Run the terraform plan
+```
+terraform apply "terraform.plan"
+```
+
+Get the function URL to test out
+```
+[jblacker@MacBook-Pro-2.local:~/repos/devops-assignment-jblacker] [jblacker-dev ↑·1|✚ 2…2]✔
+ $ aws lambda get-function-url-config --function-name whats_my_ip_jblacker | grep FunctionUrl | awk -F'"' '{print $4}'
+ https://frym2wnairyi4aulsltm77cn440pckns.lambda-url.us-east-1.on.aws/
+```
+
+After you are done testing, you can destroy the resources (the logs remain)
+```
+terraform plan -destroy --out"terraform.plan"
+terraform apply "terraform.plan"
+```
+
+
 ## The Test
 
 For this task we would like a single page web application, implemented in the language of your choice, that will return the ip address of the requester when the page is loaded. Basically, a simplified version of ifconfig.me or whatismyip.com.
